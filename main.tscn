@@ -1,3 +1,66 @@
-[gd_scene format=2]
+[gd_scene load_steps=6 format=2]
 
-[node name="Node2D" type="Node2D"]
+[ext_resource path="res://resources/Sprites/orange_ball.png" type="Texture" id=1]
+[ext_resource path="res://resources/Sprites/blue_block.png" type="Texture" id=2]
+[ext_resource path="res://Player.gd" type="Script" id=3]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 31.3198
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 150.018, 35.5261 )
+
+[node name="Game" type="Node2D"]
+
+[node name="Player" type="Node2D" parent="."]
+script = ExtResource( 3 )
+
+[node name="KinematicBody2D" type="KinematicBody2D" parent="Player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/KinematicBody2D"]
+position = Vector2( 81.5673, 65.5414 )
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="Player/KinematicBody2D"]
+position = Vector2( 81.5673, 65.5414 )
+texture = ExtResource( 1 )
+offset = Vector2( 8.917, 0.418 )
+
+[node name="Floor" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="Floor"]
+position = Vector2( 169.744, 548.26 )
+texture = ExtResource( 2 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite/StaticBody2D"]
+shape = SubResource( 2 )
+
+[node name="Sprite2" type="Sprite" parent="Floor"]
+position = Vector2( 575.395, 439.368 )
+texture = ExtResource( 2 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite2/StaticBody2D"]
+shape = SubResource( 2 )
+
+[node name="Sprite3" type="Sprite" parent="Floor"]
+position = Vector2( 819.974, 166.886 )
+rotation = 1.5708
+texture = ExtResource( 2 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite3"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite3/StaticBody2D"]
+shape = SubResource( 2 )
+
+[node name="Sprite4" type="Sprite" parent="Floor"]
+position = Vector2( 1034.15, 458.417 )
+texture = ExtResource( 2 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite4"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite4/StaticBody2D"]
+shape = SubResource( 2 )
