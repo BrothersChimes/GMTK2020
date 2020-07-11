@@ -11,6 +11,8 @@ var facing_right = false
 var coyote_time = 5
 var game_paused = false;
 
+var is_right = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -22,12 +24,18 @@ func _input(event):
 		else:
 			game_paused = true
 
+	if event.is_action_pressed("right"):
+		is_right = true
+
+	if event.is_action_released("right"):
+		is_right = false
+
 
 func _physics_process(delta):
 	if game_paused:
 		return
 	var move_dir = 0
-	if Input.is_action_pressed("right"):
+	if is_right:
 		move_dir += 1
 	if Input.is_action_pressed("left"):
 		move_dir -= 1
