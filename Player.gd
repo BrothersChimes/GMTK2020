@@ -175,8 +175,6 @@ func _physics_process(delta):
 				time_reversed += timing
 				kinematic_body.set_position(pos)
 				stored_band_time -= delta
-				rewind_effect.get_node("SpriteTop").get_texture().get_noise().set_seed(randi()%10+1)
-				rewind_effect.get_node("SpriteBot").get_texture().get_noise().set_seed(randi()%10+1)
 			return
 		else: 
 			set_state_normal()
