@@ -1,7 +1,5 @@
 extends Node2D
 
-signal hit
-
 const MOVE_SPEED = 100
 const JUMP_FORCE = 200
 const GRAVITY = 10
@@ -11,6 +9,9 @@ const MAX_X = 5000
 const MAX_Y = 5000
 const MIN_X = 0
 const MIN_Y = 0
+const LAG_LOW = 0
+const LAG_MED = 0.18
+const LAG_HIGH = 0.55
 
 var y_velo = 0
 var facing_right = false
@@ -44,6 +45,8 @@ var release_dir = {
 	"jump": JUMP_RELEASE
 }
 
+var lag_display_diff = 0
+var lag_display_countdown = 0
 var key_presses = []
 var key_timings = []
 var dLag = 0.0
@@ -70,8 +73,8 @@ func _ready():
 	kinematic_body = get_node("KinematicBody2D")
 	cur_lag_label = kinematic_body.get_node("CurLag")
 	body_start_pos = kinematic_body.get_position()
-	update_lag_and_label(0.2)
-	update_next_lag(0.2)	
+	update_lag_and_label(LAG_LOW)
+	update_next_lag(LAG_LOW)	
 	player_pos = body_start_pos
 	last_pos = kinematic_body.get_position()
 	collision_shape = kinematic_body.get_node("Area2D").get_node("CollisionShape2D")
@@ -96,7 +99,6 @@ func _input(event):
 		player_pos = kinematic_body.global_position
 		glitch_dir = player_pos.angle_to_point(last_pos)
 		glitch_spd = player_pos.distance_to(last_pos)
-		print(glitch_dir)
 		deactivate_enemy_collisions()
 		return
 	elif (event.is_action_released("continue_glitch") and glitch_state == CONTINUE_GLITCHING):
@@ -108,11 +110,15 @@ func _input(event):
 	add_key_event_to_conveyor(event)
 	
 	# Test purposes
-	if event.is_action_pressed("lag_up"):
-		update_next_lag(next_lag + 0.05)
+	if event.is_action_pressed("lag_low"):
+		update_next_lag(LAG_LOW)
 
-	if event.is_action_pressed("lag_down"):
-		update_next_lag(next_lag - 0.05)
+	if event.is_action_pressed("lag_med"):
+		update_next_lag(LAG_MED)
+
+	if event.is_action_pressed("lag_high"):
+		update_next_lag(LAG_HIGH)
+
 
 	if event.is_action_pressed("reset_pos"):
 		reset_body_and_clear_actions()
@@ -169,11 +175,10 @@ func _physics_process(delta):
 			var pos = kinematic_body.get_position()
 			var spd = min(glitch_spd * CONTINUE_SPEED, CONTINUE_MAX_SPEED)
 			pos += Vector2(1,0).rotated(glitch_dir) * spd * delta
-			print(glitch_spd * CONTINUE_SPEED)
-			print(spd)
 			kinematic_body.set_position(pos)
 			return
 
+	adjust_lag_display(delta)	
 	adjust_lag(delta)
 	rotate_key_event_conveyor(delta)
 
@@ -198,6 +203,16 @@ func _physics_process(delta):
 	player_pos = kinematic_body.global_position
 	if player_pos.x < MIN_X or player_pos.x > MAX_X or player_pos.y < MIN_Y or player_pos.y > MAX_Y:
 		reset_body_and_clear_actions()
+
+func adjust_lag_display(delta):
+	print(lag_display_diff)
+	lag_display_countdown -= delta
+	if lag_display_countdown > 0:
+		return
+	lag_display_countdown = randi() % 6 + 1
+	lag_display_diff = randi() % 10
+	if randi() % 2 == 1:
+		lag_display_diff *= -1
 
 func adjust_lag(delta): 
 	dLag = 0
@@ -247,7 +262,8 @@ func update_lag_and_label(new_lag):
 	if new_lag < 0: 
 		new_lag = 0
 	lag = new_lag
-	cur_lag_label.text = String(int(new_lag*1000)) + " ms"
+	var offset = max(20, int(new_lag*1000))
+	cur_lag_label.text = String(lag_display_diff + offset) + " ms"
 
 func update_next_lag(new_lag): 
 	if new_lag < 0: 
@@ -255,5 +271,4 @@ func update_next_lag(new_lag):
 	next_lag = new_lag
 
 func _on_Area2D_area_entered(_body):
-	print("HIT")
 	reset_body_and_clear_actions()
