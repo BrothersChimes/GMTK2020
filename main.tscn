@@ -30,20 +30,18 @@ position = Vector2( 81.5673, 65.5414 )
 texture = ExtResource( 1 )
 offset = Vector2( 8.917, 0.418 )
 
-[node name="CurLag" type="Label" parent="Player"]
+[node name="Camera2D" type="Camera2D" parent="Player/KinematicBody2D"]
+position = Vector2( 81.567, 65.541 )
+current = true
+
+[node name="CurLag" type="Label" parent="Player/KinematicBody2D"]
+margin_left = 58.3648
+margin_top = 11.6452
+margin_right = 105.365
+margin_bottom = 31.6452
 custom_fonts/font = SubResource( 2 )
 text = "LAG: "
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="NextLag" type="Label" parent="Player"]
-margin_left = 138.0
-margin_top = 2.0
-margin_right = 207.0
-margin_bottom = 22.0
-custom_fonts/font = SubResource( 2 )
-text = "NewLag"
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
