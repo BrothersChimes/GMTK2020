@@ -19,7 +19,7 @@ var kinematic_body;
 var cur_lag_label;
 var body_start_pos;
 var player_pos;
-
+var collision_shape;
 
 var is_right = false
 var is_left = false
@@ -74,6 +74,7 @@ func _ready():
 	update_next_lag(0.2)	
 	player_pos = body_start_pos
 	last_pos = kinematic_body.get_position()
+	collision_shape = kinematic_body.get_node("Area2D").get_node("CollisionShape2D")
 
 func _input(event):
 	# TODO use states instead of boolean
@@ -85,9 +86,10 @@ func _input(event):
 
 	if(event.is_action_pressed("rubber_band")):
 		glitch_state = BANDING
+		deactivate_enemy_collisions()
 		return
 	elif (event.is_action_released("rubber_band") and glitch_state == BANDING):
-		glitch_state = NORMAL
+		set_state_normal()
 
 	if (event.is_action_pressed("continue_glitch")):
 		glitch_state = CONTINUE_GLITCHING
@@ -95,9 +97,10 @@ func _input(event):
 		glitch_dir = player_pos.angle_to_point(last_pos)
 		glitch_spd = player_pos.distance_to(last_pos)
 		print(glitch_dir)
+		deactivate_enemy_collisions()
 		return
 	elif (event.is_action_released("continue_glitch") and glitch_state == CONTINUE_GLITCHING):
-		glitch_state = NORMAL
+		set_state_normal()
 
 	if game_paused:
 		return
@@ -125,6 +128,16 @@ func reset_body_and_clear_actions():
 	band_positions = []
 	band_timings = []
 	stored_band_time = 0.0
+
+func set_state_normal(): 
+	glitch_state = NORMAL
+	reactivate_enemy_collisions()
+	
+func deactivate_enemy_collisions():
+	collision_shape.set_deferred("disabled", true)
+
+func reactivate_enemy_collisions():
+	collision_shape.set_deferred("disabled", false)
 
 func _physics_process(delta):
 	if game_paused:
