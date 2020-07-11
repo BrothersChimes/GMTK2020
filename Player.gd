@@ -20,7 +20,7 @@ var lag = 0.2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	$LagLabel.text = String(lag*1000) + " ms"
 
 func _input(event):
 	if(event.is_action_pressed("pause")):
@@ -58,8 +58,6 @@ func _physics_process(delta):
 				is_right = true
 			RIGHT_RELEASE:
 				is_right = false
-	
-
 
 	var move_dir = 0
 	if is_right:
@@ -83,3 +81,7 @@ func _physics_process(delta):
 		y_velo = MAX_FALL_SPEED
 	coyote_time -= delta * 100
 #	print(delta)
+
+func update_lag(new_lag): 
+	lag = new_lag
+	$LagLabel.text = String(new_lag*1000) + " ms"
