@@ -62,6 +62,7 @@ func _input(event):
 
 	if(event.is_action_pressed("rubber_band")):
 		is_banding = true
+		return
 	elif (event.is_action_released("rubber_band")):
 		is_banding = false
 
