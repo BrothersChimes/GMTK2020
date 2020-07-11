@@ -8,6 +8,7 @@ const MAX_FALL_SPEED = 1000
 
 var y_velo = 0
 var facing_right = false
+var coyote_time = 5
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -23,10 +24,16 @@ func _physics_process(delta):
 	kinematic_body.move_and_slide(Vector2(move_dir * MOVE_SPEED, y_velo), Vector2(0, -1))
 	
 	var grounded = kinematic_body.is_on_floor()
+	if grounded:
+		coyote_time = 20
 	y_velo += GRAVITY
-	if grounded and Input.is_action_just_pressed("jump"):
+	if coyote_time > 0:
+		print("coyote_time")
+	if coyote_time > 0 and Input.is_action_just_pressed("jump"):
 		y_velo = -JUMP_FORCE
 	if grounded and y_velo >= 5:
 		y_velo = 5
 	if y_velo > MAX_FALL_SPEED:
 		y_velo = MAX_FALL_SPEED
+	coyote_time -= delta * 100
+	print(delta)
