@@ -20,6 +20,7 @@ var cur_lag_label;
 var body_start_pos;
 var player_pos;
 var collision_shape;
+var glitch_effect;
 
 var is_right = false
 var is_left = false
@@ -75,6 +76,8 @@ func _ready():
 	player_pos = body_start_pos
 	last_pos = kinematic_body.get_position()
 	collision_shape = kinematic_body.get_node("Area2D").get_node("CollisionShape2D")
+	glitch_effect = kinematic_body.get_node("GlitchEffect")
+	glitch_effect.set_visible(false)
 
 func _input(event):
 	# TODO use states instead of boolean
@@ -86,6 +89,7 @@ func _input(event):
 
 	if(event.is_action_pressed("rubber_band")):
 		glitch_state = BANDING
+		glitch_effect.set_visible(true)
 		deactivate_enemy_collisions()
 		return
 	elif (event.is_action_released("rubber_band") and glitch_state == BANDING):
@@ -131,6 +135,7 @@ func reset_body_and_clear_actions():
 
 func set_state_normal(): 
 	glitch_state = NORMAL
+	glitch_effect.set_visible(false)
 	reactivate_enemy_collisions()
 	
 func deactivate_enemy_collisions():
