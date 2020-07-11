@@ -98,10 +98,14 @@ func _physics_process(delta):
 
 	if is_banding:
 		if band_positions.size() > 0: 
-			var pos = band_positions.pop_back()
-			band_timings.pop_back() # TODO Use timings
-			kinematic_body.set_position(pos)
-			stored_band_time -= delta
+			var time_reversed = 0
+			while time_reversed < delta and band_positions.size() > 0:
+				var pos = band_positions.pop_back()
+				var timing = band_timings.pop_back()
+				time_reversed += timing
+				kinematic_body.set_position(pos)
+				stored_band_time -= delta
+				print(band_positions.size())
 			return
 	else:
 		if stored_band_time < MAX_BAND_TIME:
