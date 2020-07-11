@@ -1,14 +1,15 @@
 extends Node2D
 
 
-const MOVE_SPEED = 500
-const JUMP_FORCE = 1000
-const GRAVITY = 50
-const MAX_FALL_SPEED = 1000
+const MOVE_SPEED = 200
+const JUMP_FORCE = 500
+const GRAVITY = 25
+const MAX_FALL_SPEED = 500
+const COYOTE_TIME = 0.2
 
 var y_velo = 0
 var facing_right = false
-var coyote_time = 5
+var coyote_time = COYOTE_TIME
 var kinematic_body;
 var cur_lag_label;
 var body_start_pos;
@@ -137,18 +138,15 @@ func _physics_process(delta):
 	
 	var grounded = kinematic_body.is_on_floor()
 	if grounded:
-		coyote_time = 20
+		coyote_time = COYOTE_TIME + lag
 	y_velo += GRAVITY
-#	if coyote_time > 0:
-#		print("coyote_time")
 	if coyote_time > 0 and is_jump:
 		y_velo = -JUMP_FORCE
 	if grounded and y_velo >= 5:
 		y_velo = 5
 	if y_velo > MAX_FALL_SPEED:
 		y_velo = MAX_FALL_SPEED
-	coyote_time -= delta * 100
-#	print(delta)
+	coyote_time -= delta
 
 func adjust_lag(delta): 
 	dLag = 0

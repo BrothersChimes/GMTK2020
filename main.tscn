@@ -6,7 +6,7 @@
 [ext_resource path="res://fonts/xolonium/Xolonium-Regular.otf" type="DynamicFontData" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 31.3198
+radius = 12.4425
 
 [sub_resource type="DynamicFont" id=2]
 font_data = ExtResource( 4 )
@@ -26,7 +26,8 @@ position = Vector2( 81.5673, 65.5414 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="Player/KinematicBody2D"]
-position = Vector2( 81.5673, 65.5414 )
+position = Vector2( 81.5524, 65.5396 )
+scale = Vector2( 0.392747, 0.392747 )
 texture = ExtResource( 1 )
 offset = Vector2( 8.917, 0.418 )
 
@@ -35,10 +36,10 @@ position = Vector2( 81.567, 65.541 )
 current = true
 
 [node name="CurLag" type="Label" parent="Player/KinematicBody2D"]
-margin_left = 58.3648
-margin_top = 11.6452
-margin_right = 105.365
-margin_bottom = 31.6452
+margin_left = 57.9474
+margin_top = 23.6588
+margin_right = 104.947
+margin_bottom = 43.6588
 custom_fonts/font = SubResource( 2 )
 text = "LAG: "
 align = 1
@@ -55,7 +56,7 @@ texture = ExtResource( 2 )
 [node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite/StaticBody2D"]
-position = Vector2( 0, -1 )
+position = Vector2( 0, 0.334839 )
 shape = SubResource( 3 )
 
 [node name="Sprite2" type="Sprite" parent="Floor"]
