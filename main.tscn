@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://resources/Sprites/orange_ball.png" type="Texture" id=1]
 [ext_resource path="res://resources/Sprites/blue_block.png" type="Texture" id=2]
 [ext_resource path="res://Player.gd" type="Script" id=3]
 [ext_resource path="res://fonts/xolonium/Xolonium-Regular.otf" type="DynamicFontData" id=4]
 [ext_resource path="res://enemy_still.tscn" type="PackedScene" id=5]
+[ext_resource path="res://spike_pit.tscn" type="PackedScene" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 12.4425
@@ -130,6 +131,28 @@ texture = ExtResource( 2 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite3/StaticBody2D"]
 shape = SubResource( 8 )
 
+[node name="Sprite5" type="Sprite" parent="Floor"]
+position = Vector2( 849.136, 831.344 )
+rotation = 1.5708
+texture = ExtResource( 2 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite5"]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite5/StaticBody2D"]
+visible = false
+shape = SubResource( 8 )
+
+[node name="Sprite6" type="Sprite" parent="Floor"]
+position = Vector2( 1150.18, 821.254 )
+rotation = 1.5708
+texture = ExtResource( 2 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite6"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite6/StaticBody2D"]
+shape = SubResource( 8 )
+
 [node name="Sprite4" type="Sprite" parent="Floor"]
 position = Vector2( 1191.13, 662.064 )
 texture = ExtResource( 2 )
@@ -146,4 +169,7 @@ position = Vector2( 740.817, 572.458 )
 
 [node name="enemy_still2" parent="Enemies" instance=ExtResource( 5 )]
 position = Vector2( 1236.19, 590.423 )
+
+[node name="spike_pit" parent="Enemies" instance=ExtResource( 6 )]
+position = Vector2( 970.395, 894.714 )
 [connection signal="area_entered" from="Player/KinematicBody2D/Area2D" to="Player" method="_on_Area2D_area_entered"]
