@@ -6,6 +6,10 @@ const JUMP_FORCE = 500
 const GRAVITY = 25
 const MAX_FALL_SPEED = 500
 const COYOTE_TIME = 0.2
+const MAX_X = 5000
+const MAX_Y = 5000
+const MIN_X = 0
+const MIN_Y = 0
 
 var y_velo = 0
 var facing_right = false
@@ -13,6 +17,7 @@ var coyote_time = COYOTE_TIME
 var kinematic_body;
 var cur_lag_label;
 var body_start_pos;
+var player_pos;
 
 var is_right = false
 var is_left = false
@@ -147,6 +152,10 @@ func _physics_process(delta):
 	if y_velo > MAX_FALL_SPEED:
 		y_velo = MAX_FALL_SPEED
 	coyote_time -= delta
+	player_pos = kinematic_body.global_position
+	print(player_pos.x, "  ", player_pos.y)
+	if player_pos.x < MIN_X or player_pos.x > MAX_X or player_pos.y < MIN_Y or player_pos.y > MAX_Y:
+		reset_body_and_clear_actions()
 
 func adjust_lag(delta): 
 	dLag = 0
