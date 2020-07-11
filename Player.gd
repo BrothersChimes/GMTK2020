@@ -9,13 +9,17 @@ const MAX_FALL_SPEED = 1000
 var y_velo = 0
 var facing_right = false
 var coyote_time = 5
-var game_paused = false;
 var kinematic_body;
 var body_start_pos;
 
 var is_right = false
 var is_left = false
 var is_jump = false
+
+# TODO use states so that the player doesn't move whilst in another state
+# enum {PAUSED, NORMAL, BANDING}.
+var game_paused = false;
+var is_banding = false;
 
 enum {RIGHT_PRESS, RIGHT_RELEASE, LEFT_PRESS, LEFT_RELEASE, JUMP_PRESS, JUMP_RELEASE}
 var press_dir = {
@@ -36,6 +40,11 @@ var dLag = 0.0
 var lag = 0.0
 var next_lag = 0.0
 
+var band_positions = []
+var band_timings = []
+var stored_band_time = 0.0
+const MAX_BAND_TIME = 2.0
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	update_lag_and_label(0.2)
@@ -44,11 +53,17 @@ func _ready():
 	body_start_pos = kinematic_body.get_position()
 
 func _input(event):
+	# TODO use states instead of boolean
 	if(event.is_action_pressed("pause")):
 		if game_paused:
 			game_paused = false
 		else:
 			game_paused = true
+
+	if(event.is_action_pressed("rubber_band")):
+		is_banding = true
+	elif (event.is_action_released("rubber_band")):
+		is_banding = false
 
 	if game_paused:
 		return
@@ -73,10 +88,38 @@ func reset_body_and_clear_actions():
 	is_right = false
 	is_left = false
 	is_jump = false
+	band_positions = []
+	band_timings = []
+	stored_band_time = 0.0
 
 func _physics_process(delta):
 	if game_paused:
 		return
+
+	if is_banding:
+		if band_positions.size() > 0: 
+			var time_reversed = 0
+			while time_reversed < delta and band_positions.size() > 0:
+				var pos = band_positions.pop_back()
+				var timing = band_timings.pop_back()
+				time_reversed += timing
+				kinematic_body.set_position(pos)
+				stored_band_time -= delta
+				print(band_positions.size())
+			return
+	else:
+		if stored_band_time < MAX_BAND_TIME:
+			band_positions.append(kinematic_body.get_position())
+			band_timings.append(delta)
+			stored_band_time += delta
+		else: 
+			band_positions.append(kinematic_body.get_position())
+			band_timings.append(delta)		
+			band_positions.pop_front()
+			band_timings.pop_front()
+
+	print(band_positions.size())
+
 
 	adjust_lag(delta)
 	rotate_key_event_conveyor(delta)
@@ -115,9 +158,6 @@ func adjust_lag(delta):
 		update_lag_and_label(lag + dLag)
 	else:
 		update_lag_and_label(next_lag)		
-	
-	print(dLag)
-
 
 func add_key_event_to_conveyor(event):
 	for key_name in press_dir: 
@@ -133,8 +173,6 @@ func add_key_event_to_conveyor(event):
 func rotate_key_event_conveyor(delta):
 	for i in range(0, key_timings.size()): 
 		key_timings[i] = key_timings[i] - delta + dLag
-		print("key_timings[i]")
-		print(key_timings[i])
 
 	while (key_timings.size() > 0 and key_timings[0] <= 0):
 		key_timings.pop_front()
