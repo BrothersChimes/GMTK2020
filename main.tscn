@@ -1,15 +1,19 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://resources/Sprites/orange_ball.png" type="Texture" id=1]
 [ext_resource path="res://resources/Sprites/blue_block.png" type="Texture" id=2]
 [ext_resource path="res://Player.gd" type="Script" id=3]
 [ext_resource path="res://fonts/xolonium/Xolonium-Regular.otf" type="DynamicFontData" id=4]
+[ext_resource path="res://enemy_still.tscn" type="PackedScene" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 12.4425
 
 [sub_resource type="DynamicFont" id=2]
 font_data = ExtResource( 4 )
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 11.779
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 150.018, 35.5261 )
@@ -44,6 +48,11 @@ align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Area2D" type="Area2D" parent="Player/KinematicBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/KinematicBody2D/Area2D"]
+shape = SubResource( 4 )
 
 [node name="Floor" type="Node2D" parent="."]
 
@@ -84,3 +93,12 @@ texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite4/StaticBody2D"]
 shape = SubResource( 3 )
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="enemy_still" parent="Enemies" instance=ExtResource( 5 )]
+position = Vector2( 740.817, 572.458 )
+
+[node name="enemy_still2" parent="Enemies" instance=ExtResource( 5 )]
+position = Vector2( 1236.19, 590.423 )
+[connection signal="area_entered" from="Player/KinematicBody2D/Area2D" to="Player" method="_on_Area2D_area_entered"]
