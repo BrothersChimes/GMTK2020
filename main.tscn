@@ -15,16 +15,16 @@ font_data = ExtResource( 4 )
 [sub_resource type="CircleShape2D" id=3]
 radius = 11.779
 
-[sub_resource type="OpenSimplexNoise" id=5]
+[sub_resource type="OpenSimplexNoise" id=4]
 octaves = 8
 period = 2.5
 persistence = 0.609
 lacunarity = 2.76
 
-[sub_resource type="NoiseTexture" id=6]
-noise = SubResource( 5 )
+[sub_resource type="NoiseTexture" id=5]
+noise = SubResource( 4 )
 
-[sub_resource type="RectangleShape2D" id=4]
+[sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 150.018, 35.5261 )
 
 [node name="Game" type="Node2D"]
@@ -72,13 +72,13 @@ position = Vector2( -238.545, -269.188 )
 position = Vector2( 238.366, -30.4242 )
 scale = Vector2( 2.04409, 0.379493 )
 z_index = 3
-texture = SubResource( 6 )
+texture = SubResource( 5 )
 
 [node name="SpriteBot" type="Sprite" parent="Player/KinematicBody2D/GlitchEffect"]
 position = Vector2( 236.64, 584.272 )
 scale = Vector2( 2.05091, 0.425159 )
 z_index = 3
-texture = SubResource( 6 )
+texture = SubResource( 5 )
 
 [node name="Floor" type="Node2D" parent="."]
 
@@ -90,7 +90,7 @@ texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite/StaticBody2D"]
 position = Vector2( 0, 0.334839 )
-shape = SubResource( 4 )
+shape = SubResource( 6 )
 
 [node name="Sprite2" type="Sprite" parent="Floor"]
 position = Vector2( 732.373, 643.015 )
@@ -99,7 +99,7 @@ texture = ExtResource( 2 )
 [node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite2"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite2/StaticBody2D"]
-shape = SubResource( 4 )
+shape = SubResource( 6 )
 
 [node name="Sprite3" type="Sprite" parent="Floor"]
 position = Vector2( 976.952, 370.533 )
@@ -109,7 +109,7 @@ texture = ExtResource( 2 )
 [node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite3"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite3/StaticBody2D"]
-shape = SubResource( 4 )
+shape = SubResource( 6 )
 
 [node name="Sprite4" type="Sprite" parent="Floor"]
 position = Vector2( 1191.13, 662.064 )
@@ -118,7 +118,7 @@ texture = ExtResource( 2 )
 [node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite4"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite4/StaticBody2D"]
-shape = SubResource( 4 )
+shape = SubResource( 6 )
 
 [node name="Enemies" type="Node2D" parent="."]
 
