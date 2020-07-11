@@ -62,6 +62,18 @@ func _input(event):
 	if event.is_action_pressed("lag_down"):
 		update_next_lag_and_label(next_lag - 0.05)
 
+	if event.is_action_pressed("reset_pos"):
+		reset_body_and_clear_actions()
+
+func reset_body_and_clear_actions():
+	kinematic_body.set_position(body_start_pos)
+	key_presses = []
+	key_timings = []
+	y_velo = 0
+	is_right = false
+	is_left = false
+	is_jump = false
+
 func _physics_process(delta):
 	if game_paused:
 		return
