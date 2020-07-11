@@ -2,10 +2,10 @@ extends Node2D
 
 signal hit
 
-const MOVE_SPEED = 200
-const JUMP_FORCE = 500
-const GRAVITY = 25
-const MAX_FALL_SPEED = 500
+const MOVE_SPEED = 100
+const JUMP_FORCE = 200
+const GRAVITY = 10
+const MAX_FALL_SPEED = 300
 const COYOTE_TIME = 0.2
 const MAX_X = 5000
 const MAX_Y = 5000
@@ -19,6 +19,7 @@ var kinematic_body;
 var cur_lag_label;
 var body_start_pos;
 var player_pos;
+var collision_shape;
 
 var is_right = false
 var is_left = false
@@ -27,8 +28,9 @@ var is_jump = false
 # TODO use states so that the player doesn't move whilst in another state
 # enum {PAUSED, NORMAL, BANDING}.
 var game_paused = false;
-var is_banding = false;
+var glitch_state = NORMAL
 
+enum {NORMAL, BANDING, CONTINUE_GLITCHING}
 enum {RIGHT_PRESS, RIGHT_RELEASE, LEFT_PRESS, LEFT_RELEASE, JUMP_PRESS, JUMP_RELEASE}
 var press_dir = {
 	"right": RIGHT_PRESS,
@@ -48,10 +50,20 @@ var dLag = 0.0
 var lag = 0.0
 var next_lag = 0.0
 
+const MAX_GLITCH_TIME = 2.0
+
+
 var band_positions = []
 var band_timings = []
 var stored_band_time = 0.0
 const MAX_BAND_TIME = 2.0
+
+var last_pos;
+var glitch_dir;
+var glitch_spd;
+const CONTINUE_SPEED = 60
+const CONTINUE_MAX_SPEED = 500
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -60,6 +72,9 @@ func _ready():
 	body_start_pos = kinematic_body.get_position()
 	update_lag_and_label(0.2)
 	update_next_lag(0.2)	
+	player_pos = body_start_pos
+	last_pos = kinematic_body.get_position()
+	collision_shape = kinematic_body.get_node("Area2D").get_node("CollisionShape2D")
 
 func _input(event):
 	# TODO use states instead of boolean
@@ -70,10 +85,22 @@ func _input(event):
 			game_paused = true
 
 	if(event.is_action_pressed("rubber_band")):
-		is_banding = true
+		glitch_state = BANDING
+		deactivate_enemy_collisions()
 		return
-	elif (event.is_action_released("rubber_band")):
-		is_banding = false
+	elif (event.is_action_released("rubber_band") and glitch_state == BANDING):
+		set_state_normal()
+
+	if (event.is_action_pressed("continue_glitch")):
+		glitch_state = CONTINUE_GLITCHING
+		player_pos = kinematic_body.global_position
+		glitch_dir = player_pos.angle_to_point(last_pos)
+		glitch_spd = player_pos.distance_to(last_pos)
+		print(glitch_dir)
+		deactivate_enemy_collisions()
+		return
+	elif (event.is_action_released("continue_glitch") and glitch_state == CONTINUE_GLITCHING):
+		set_state_normal()
 
 	if game_paused:
 		return
@@ -102,11 +129,22 @@ func reset_body_and_clear_actions():
 	band_timings = []
 	stored_band_time = 0.0
 
+func set_state_normal(): 
+	glitch_state = NORMAL
+	reactivate_enemy_collisions()
+	
+func deactivate_enemy_collisions():
+	collision_shape.set_deferred("disabled", true)
+
+func reactivate_enemy_collisions():
+	collision_shape.set_deferred("disabled", false)
+
 func _physics_process(delta):
 	if game_paused:
 		return
 
-	if is_banding:
+	last_pos = kinematic_body.get_position()
+	if glitch_state == BANDING:
 		if band_positions.size() > 0: 
 			var time_reversed = 0
 			while time_reversed < delta and band_positions.size() > 0:
@@ -115,9 +153,8 @@ func _physics_process(delta):
 				time_reversed += timing
 				kinematic_body.set_position(pos)
 				stored_band_time -= delta
-				print(band_positions.size())
 			return
-	else:
+	else: 
 		if stored_band_time < MAX_BAND_TIME:
 			band_positions.append(kinematic_body.get_position())
 			band_timings.append(delta)
@@ -128,8 +165,14 @@ func _physics_process(delta):
 			band_positions.pop_front()
 			band_timings.pop_front()
 
-	print(band_positions.size())
-
+		if glitch_state == CONTINUE_GLITCHING: 
+			var pos = kinematic_body.get_position()
+			var spd = min(glitch_spd * CONTINUE_SPEED, CONTINUE_MAX_SPEED)
+			pos += Vector2(1,0).rotated(glitch_dir) * spd * delta
+			print(glitch_spd * CONTINUE_SPEED)
+			print(spd)
+			kinematic_body.set_position(pos)
+			return
 
 	adjust_lag(delta)
 	rotate_key_event_conveyor(delta)
@@ -139,7 +182,6 @@ func _physics_process(delta):
 		move_dir += 1
 	if is_left:
 		move_dir -= 1
-	kinematic_body = get_node("KinematicBody2D")
 	kinematic_body.move_and_slide(Vector2(move_dir * MOVE_SPEED, y_velo), Vector2(0, -1))
 	
 	var grounded = kinematic_body.is_on_floor()
@@ -154,7 +196,6 @@ func _physics_process(delta):
 		y_velo = MAX_FALL_SPEED
 	coyote_time -= delta
 	player_pos = kinematic_body.global_position
-	print(player_pos.x, "  ", player_pos.y)
 	if player_pos.x < MIN_X or player_pos.x > MAX_X or player_pos.y < MIN_Y or player_pos.y > MAX_Y:
 		reset_body_and_clear_actions()
 
