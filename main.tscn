@@ -64,6 +64,7 @@ __meta__ = {
 shape = SubResource( 3 )
 
 [node name="GlitchEffect" type="Node2D" parent="Player/KinematicBody2D"]
+visible = false
 modulate = Color( 1, 1, 1, 0.572549 )
 position = Vector2( -238.545, -269.188 )
 
