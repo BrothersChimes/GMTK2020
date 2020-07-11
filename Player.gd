@@ -2,10 +2,10 @@ extends Node2D
 
 signal hit
 
-const MOVE_SPEED = 200
-const JUMP_FORCE = 500
-const GRAVITY = 25
-const MAX_FALL_SPEED = 500
+const MOVE_SPEED = 100
+const JUMP_FORCE = 200
+const GRAVITY = 10
+const MAX_FALL_SPEED = 300
 const COYOTE_TIME = 0.2
 const MAX_X = 5000
 const MAX_Y = 5000
