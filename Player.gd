@@ -10,6 +10,7 @@ var y_velo = 0
 var facing_right = false
 var coyote_time = 5
 var kinematic_body;
+var cur_lag_label;
 var body_start_pos;
 
 var is_right = false
@@ -47,10 +48,11 @@ const MAX_BAND_TIME = 2.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	update_lag_and_label(0.2)
-	update_next_lag_and_label(0.2)	
 	kinematic_body = get_node("KinematicBody2D")
+	cur_lag_label = kinematic_body.get_node("CurLag")
 	body_start_pos = kinematic_body.get_position()
+	update_lag_and_label(0.2)
+	update_next_lag(0.2)	
 
 func _input(event):
 	# TODO use states instead of boolean
@@ -73,10 +75,10 @@ func _input(event):
 	
 	# Test purposes
 	if event.is_action_pressed("lag_up"):
-		update_next_lag_and_label(next_lag + 0.05)
+		update_next_lag(next_lag + 0.05)
 
 	if event.is_action_pressed("lag_down"):
-		update_next_lag_and_label(next_lag - 0.05)
+		update_next_lag(next_lag - 0.05)
 
 	if event.is_action_pressed("reset_pos"):
 		reset_body_and_clear_actions()
@@ -196,10 +198,9 @@ func update_lag_and_label(new_lag):
 	if new_lag < 0: 
 		new_lag = 0
 	lag = new_lag
-	$CurLag.text = String(int(new_lag*1000)) + " ms"
+	cur_lag_label.text = String(int(new_lag*1000)) + " ms"
 
-func update_next_lag_and_label(new_lag): 
+func update_next_lag(new_lag): 
 	if new_lag < 0: 
 		new_lag = 0
 	next_lag = new_lag
-	$NextLag.text = String(int(new_lag*1000)) + " ms"

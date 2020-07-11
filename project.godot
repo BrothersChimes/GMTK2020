@@ -24,6 +24,10 @@ config/name="GMTK2020"
 run/main_scene="res://main.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/size/height=768
+
 [gdnative]
 
 singletons=[ "res://git_api.gdnlib" ]
