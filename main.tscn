@@ -12,10 +12,10 @@ radius = 12.4425
 [sub_resource type="DynamicFont" id=2]
 font_data = ExtResource( 4 )
 
-[sub_resource type="CircleShape2D" id=4]
+[sub_resource type="CircleShape2D" id=3]
 radius = 11.779
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 150.018, 35.5261 )
 
 [node name="Game" type="Node2D"]
@@ -52,7 +52,7 @@ __meta__ = {
 [node name="Area2D" type="Area2D" parent="Player/KinematicBody2D"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/KinematicBody2D/Area2D"]
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 
 [node name="Floor" type="Node2D" parent="."]
 
@@ -64,7 +64,7 @@ texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite/StaticBody2D"]
 position = Vector2( 0, 0.334839 )
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [node name="Sprite2" type="Sprite" parent="Floor"]
 position = Vector2( 732.373, 643.015 )
@@ -73,7 +73,7 @@ texture = ExtResource( 2 )
 [node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite2"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite2/StaticBody2D"]
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [node name="Sprite3" type="Sprite" parent="Floor"]
 position = Vector2( 976.952, 370.533 )
@@ -83,7 +83,7 @@ texture = ExtResource( 2 )
 [node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite3"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite3/StaticBody2D"]
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [node name="Sprite4" type="Sprite" parent="Floor"]
 position = Vector2( 1191.13, 662.064 )
@@ -92,7 +92,7 @@ texture = ExtResource( 2 )
 [node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite4"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite4/StaticBody2D"]
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [node name="Enemies" type="Node2D" parent="."]
 
