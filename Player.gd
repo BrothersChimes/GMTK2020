@@ -98,6 +98,7 @@ func _input(event):
 		rewind_effect.set_visible(true)
 		continue_effect.set_visible(false)
 		deactivate_enemy_collisions()
+		reset_key_presses_and_movement()
 		return
 	elif (event.is_action_released("rubber_band") and glitch_state == BANDING):
 		set_state_normal()
@@ -135,12 +136,7 @@ func _input(event):
 
 func reset_body_and_clear_actions():
 	kinematic_body.set_position(body_start_pos)
-	key_presses = []
-	key_timings = []
-	y_velo = 0
-	is_right = false
-	is_left = false
-	is_jump = false
+	reset_key_presses_and_movement()
 	band_positions = []
 	band_timings = []
 	stored_band_time = 0.0
@@ -156,6 +152,14 @@ func deactivate_enemy_collisions():
 
 func reactivate_enemy_collisions():
 	collision_shape.set_deferred("disabled", false)
+
+func reset_key_presses_and_movement():
+	key_presses = []
+	key_timings = []
+	y_velo = 0
+	is_right = false
+	is_left = false
+	is_jump = false
 
 func _physics_process(delta):
 	if game_paused:
@@ -174,6 +178,8 @@ func _physics_process(delta):
 				rewind_effect.get_node("SpriteTop").get_texture().get_noise().set_seed(randi()%10+1)
 				rewind_effect.get_node("SpriteBot").get_texture().get_noise().set_seed(randi()%10+1)
 			return
+		else: 
+			set_state_normal()
 	else: 
 		if stored_band_time < MAX_BAND_TIME:
 			band_positions.append(kinematic_body.get_position())
