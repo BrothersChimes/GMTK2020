@@ -55,7 +55,7 @@ var dLag = 0.0
 var lag = 0.0
 var next_lag = 0.0
 
-const MAX_GLITCH_TIME = 2.0
+# const MAX_GLITCH_TIME = 2.0
 
 
 var band_positions = []
