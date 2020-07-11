@@ -9,12 +9,23 @@ const MAX_FALL_SPEED = 1000
 var y_velo = 0
 var facing_right = false
 var coyote_time = 5
+var game_paused = false;
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
 
+func _input(event):
+	if(event.is_action_pressed("pause")):
+		if game_paused:
+			game_paused = false
+		else:
+			game_paused = true
+
+
 func _physics_process(delta):
+	if game_paused:
+		return
 	var move_dir = 0
 	if Input.is_action_pressed("right"):
 		move_dir += 1
