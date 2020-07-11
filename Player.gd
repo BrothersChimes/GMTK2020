@@ -20,7 +20,7 @@ var cur_lag_label;
 var body_start_pos;
 var player_pos;
 var collision_shape;
-var glitch_effect;
+var rewind_effect;
 var continue_effect;
 
 var is_right = false
@@ -77,9 +77,9 @@ func _ready():
 	player_pos = body_start_pos
 	last_pos = kinematic_body.get_position()
 	collision_shape = kinematic_body.get_node("Area2D").get_node("CollisionShape2D")
-	glitch_effect = kinematic_body.get_node("GlitchEffect")
+	rewind_effect = kinematic_body.get_node("RewindEffect")
 	continue_effect = kinematic_body.get_node("ContinueEffect")
-	glitch_effect.set_visible(false)
+	rewind_effect.set_visible(false)
 	continue_effect.set_visible(false)
 
 func _input(event):
@@ -92,7 +92,7 @@ func _input(event):
 
 	if(event.is_action_pressed("rubber_band")):
 		glitch_state = BANDING
-		glitch_effect.set_visible(true)
+		rewind_effect.set_visible(true)
 		continue_effect.set_visible(false)
 		deactivate_enemy_collisions()
 		return
@@ -107,7 +107,7 @@ func _input(event):
 		print(glitch_dir)
 		deactivate_enemy_collisions()
 		continue_effect.set_visible(true)
-		glitch_effect.set_visible(false)
+		rewind_effect.set_visible(false)
 		return
 	elif (event.is_action_released("continue_glitch") and glitch_state == CONTINUE_GLITCHING):
 		set_state_normal()
@@ -141,7 +141,7 @@ func reset_body_and_clear_actions():
 
 func set_state_normal(): 
 	glitch_state = NORMAL
-	glitch_effect.set_visible(false)
+	rewind_effect.set_visible(false)
 	continue_effect.set_visible(false)
 	reactivate_enemy_collisions()
 	
@@ -165,8 +165,8 @@ func _physics_process(delta):
 				time_reversed += timing
 				kinematic_body.set_position(pos)
 				stored_band_time -= delta
-				glitch_effect.get_node("SpriteTop").get_texture().get_noise().set_seed(randi()%10+1)
-				glitch_effect.get_node("SpriteBot").get_texture().get_noise().set_seed(randi()%10+1)
+				rewind_effect.get_node("SpriteTop").get_texture().get_noise().set_seed(randi()%10+1)
+				rewind_effect.get_node("SpriteBot").get_texture().get_noise().set_seed(randi()%10+1)
 			return
 	else: 
 		if stored_band_time < MAX_BAND_TIME:
