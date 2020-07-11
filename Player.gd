@@ -49,6 +49,9 @@ var dLag = 0.0
 var lag = 0.0
 var next_lag = 0.0
 
+const MAX_GLITCH_TIME = 2.0
+
+
 var band_positions = []
 var band_timings = []
 var stored_band_time = 0.0
@@ -59,6 +62,7 @@ var glitch_dir;
 var glitch_spd;
 const CONTINUE_SPEED = 60
 const CONTINUE_MAX_SPEED = 500
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
