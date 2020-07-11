@@ -1,5 +1,6 @@
 extends Node2D
 
+signal hit
 
 const MOVE_SPEED = 200
 const JUMP_FORCE = 500
@@ -239,3 +240,7 @@ func update_next_lag(new_lag):
 	if new_lag < 0: 
 		new_lag = 0
 	next_lag = new_lag
+
+func _on_Area2D_area_entered(_body):
+	print("HIT")
+	reset_body_and_clear_actions()
