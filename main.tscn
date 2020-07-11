@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://resources/Sprites/orange_ball.png" type="Texture" id=1]
 [ext_resource path="res://resources/Sprites/blue_block.png" type="Texture" id=2]
@@ -12,10 +12,19 @@ radius = 12.4425
 [sub_resource type="DynamicFont" id=2]
 font_data = ExtResource( 4 )
 
-[sub_resource type="CircleShape2D" id=4]
+[sub_resource type="CircleShape2D" id=3]
 radius = 11.779
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="OpenSimplexNoise" id=5]
+octaves = 8
+period = 2.5
+persistence = 0.609
+lacunarity = 2.76
+
+[sub_resource type="NoiseTexture" id=6]
+noise = SubResource( 5 )
+
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 150.018, 35.5261 )
 
 [node name="Game" type="Node2D"]
@@ -52,7 +61,23 @@ __meta__ = {
 [node name="Area2D" type="Area2D" parent="Player/KinematicBody2D"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/KinematicBody2D/Area2D"]
-shape = SubResource( 4 )
+shape = SubResource( 3 )
+
+[node name="GlitchEffect" type="Node2D" parent="Player/KinematicBody2D"]
+modulate = Color( 1, 1, 1, 0.572549 )
+position = Vector2( -238.545, -269.188 )
+
+[node name="SpriteTop" type="Sprite" parent="Player/KinematicBody2D/GlitchEffect"]
+position = Vector2( 238.366, -30.4242 )
+scale = Vector2( 2.04409, 0.379493 )
+z_index = 3
+texture = SubResource( 6 )
+
+[node name="SpriteBot" type="Sprite" parent="Player/KinematicBody2D/GlitchEffect"]
+position = Vector2( 236.64, 584.272 )
+scale = Vector2( 2.05091, 0.425159 )
+z_index = 3
+texture = SubResource( 6 )
 
 [node name="Floor" type="Node2D" parent="."]
 
@@ -64,7 +89,7 @@ texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite/StaticBody2D"]
 position = Vector2( 0, 0.334839 )
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [node name="Sprite2" type="Sprite" parent="Floor"]
 position = Vector2( 732.373, 643.015 )
@@ -73,7 +98,7 @@ texture = ExtResource( 2 )
 [node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite2"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite2/StaticBody2D"]
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [node name="Sprite3" type="Sprite" parent="Floor"]
 position = Vector2( 976.952, 370.533 )
@@ -83,7 +108,7 @@ texture = ExtResource( 2 )
 [node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite3"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite3/StaticBody2D"]
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [node name="Sprite4" type="Sprite" parent="Floor"]
 position = Vector2( 1191.13, 662.064 )
@@ -92,7 +117,7 @@ texture = ExtResource( 2 )
 [node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite4"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite4/StaticBody2D"]
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [node name="Enemies" type="Node2D" parent="."]
 
