@@ -388,4 +388,6 @@ func _on_Area2D_area_entered(_body):
 
 
 func _on_activate_checkpoint(position): 
+	num_lives = 3
 	respawn_pos = position
+	display_lives()
