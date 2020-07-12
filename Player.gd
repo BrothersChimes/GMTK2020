@@ -205,7 +205,7 @@ func display_lives():
 		life_display_arr.push_back(life_display) 
 		lives_node.call_deferred("add_child", life_display)
 		life_display.position.x += offset
-		offset += 12
+		offset += 25
 
 func _process(delta):
 	noclip_bar_sprite.scale.x = noclip_bar_sprite_original_scale * (noclip_time / MAX_NOCLIP_TIME_HIGH)
@@ -362,6 +362,12 @@ func update_lag_and_label(new_lag):
 	lag = new_lag
 	var offset = max(20, int(new_lag*1000))
 	cur_lag_label.text = String(lag_display_diff + offset) + " ms"
+	if new_lag == LAG_LOW:
+		cur_lag_label.add_color_override("font_color", Color(0,1,0,1))
+	if new_lag == LAG_MED:
+		cur_lag_label.add_color_override("font_color", Color(1,1,0,1))
+	if new_lag == LAG_HIGH:
+		cur_lag_label.add_color_override("font_color", Color(1,0,0,1))
 
 func update_next_lag(new_lag): 
 	if new_lag < 0: 
