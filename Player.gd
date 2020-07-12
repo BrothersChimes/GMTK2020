@@ -194,7 +194,6 @@ func _physics_process(delta):
 			var spd = min(glitch_spd * CONTINUE_SPEED, CONTINUE_MAX_SPEED)
 			pos += Vector2(1,0).rotated(glitch_dir) * spd * delta
 			kinematic_body.set_position(pos)
-			continue_effect.get_node("Sprite").get_texture().get_noise().set_seed(randi()%10+1)
 			return
 
 	adjust_lag_display(delta)	
