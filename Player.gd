@@ -205,7 +205,7 @@ func display_lives():
 		life_display_arr.push_back(life_display) 
 		lives_node.call_deferred("add_child", life_display)
 		life_display.position.x += offset
-		offset += 12
+		offset += 25
 
 func _process(delta):
 	noclip_bar_sprite.scale.x = noclip_bar_sprite_original_scale * (noclip_time / MAX_NOCLIP_TIME_HIGH)
