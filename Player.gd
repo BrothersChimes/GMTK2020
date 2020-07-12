@@ -36,8 +36,6 @@ var is_jump = false
 
 var respawn_pos
 
-# TODO use states so that the player doesn't move whilst in another state
-# enum {PAUSED, NORMAL, REWIND}.
 var game_paused = false
 var glitch_state = NORMAL
 
@@ -68,9 +66,9 @@ var rewind_timings = []
 var stored_rewind_time = 0.0
 const MAX_REWIND_TIME = 2.0
 
-const MAX_NOCLIP_TIME_LOW = 1.0
-const MAX_NOCLIP_TIME_MED = 3.0
-const MAX_NOCLIP_TIME_HIGH = 6.0
+const MAX_NOCLIP_TIME_LOW = 0.5
+const MAX_NOCLIP_TIME_MED = 1.5
+const MAX_NOCLIP_TIME_HIGH = 3.0
 var max_noclip_time = MAX_NOCLIP_TIME_LOW
 var last_pos
 var noclip_dir
@@ -79,7 +77,7 @@ var noclip_bar_sprite
 var noclip_bar_sprite_original_scale
 var noclip_time = 0.0
 const NOCLIP_SPEED = 60
-const NOCLIP_MAX_SPEED = 400
+const NOCLIP_MAX_SPEED = 300
 
 
 # Called when the node enters the scene tree for the first time.
@@ -124,7 +122,7 @@ func _input(event):
 
 	if (event.is_action_pressed("continue_glitch")):
 		glitch_state = NOCLIP
-		player_pos = kinematic_body.global_position
+		player_pos = kinematic_body.get_position()
 		noclip_dir = player_pos.angle_to_point(last_pos)
 		noclip_spd = player_pos.distance_to(last_pos)
 		deactivate_enemy_collisions()
