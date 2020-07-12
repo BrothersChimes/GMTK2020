@@ -23,7 +23,7 @@ var body_start_pos
 var player_pos
 var collision_shape
 var rewind_effect
-var continue_effect
+var noclip_effect
 var num_lives = START_LIVES
 var lives_label
 var lives_node
@@ -34,11 +34,11 @@ var is_left = false
 var is_jump = false
 
 # TODO use states so that the player doesn't move whilst in another state
-# enum {PAUSED, NORMAL, BANDING}.
+# enum {PAUSED, NORMAL, REWIND}.
 var game_paused = false
 var glitch_state = NORMAL
 
-enum {NORMAL, BANDING, CONTINUE_GLITCHING}
+enum {NORMAL, REWIND, NOCLIP}
 enum {RIGHT_PRESS, RIGHT_RELEASE, LEFT_PRESS, LEFT_RELEASE, JUMP_PRESS, JUMP_RELEASE}
 var press_dir = {
 	"right": RIGHT_PRESS,
@@ -63,16 +63,16 @@ var next_lag = 0.0
 # const MAX_GLITCH_TIME = 2.0
 
 
-var band_positions = []
-var band_timings = []
-var stored_band_time = 0.0
-const MAX_BAND_TIME = 2.0
+var rewind_positions = []
+var rewind_timings = []
+var stored_rewind_time = 0.0
+const MAX_REWIND_TIME = 2.0
 
 var last_pos
-var glitch_dir
-var glitch_spd
-const CONTINUE_SPEED = 60
-const CONTINUE_MAX_SPEED = 500
+var noclip_dir
+var noclip_spd
+const NOCLIP_SPEED = 60
+const NOCLIP_MAX_SPEED = 500
 
 
 # Called when the node enters the scene tree for the first time.
@@ -86,9 +86,9 @@ func _ready():
 	last_pos = kinematic_body.get_position()
 	collision_shape = kinematic_body.get_node("Area2D").get_node("CollisionShape2D")
 	rewind_effect = kinematic_body.get_node("RewindEffect")
-	continue_effect = kinematic_body.get_node("ContinueEffect")
+	noclip_effect = kinematic_body.get_node("ContinueEffect")
 	rewind_effect.set_visible(false)
-	continue_effect.set_visible(false)
+	noclip_effect.set_visible(false)
 	lives_label = kinematic_body.get_node("LivesLabel")
 	lives_node = kinematic_body.get_node("LivesNode")
 	display_lives()
@@ -102,25 +102,25 @@ func _input(event):
 			game_paused = true
 
 	if(event.is_action_pressed("rubber_band")):
-		glitch_state = BANDING
+		glitch_state = REWIND
 		rewind_effect.set_visible(true)
-		continue_effect.set_visible(false)
+		noclip_effect.set_visible(false)
 		deactivate_enemy_collisions()
 		reset_key_presses_and_movement()
 		return
-	elif (event.is_action_released("rubber_band") and glitch_state == BANDING):
+	elif (event.is_action_released("rubber_band") and glitch_state == REWIND):
 		set_state_normal()
 
 	if (event.is_action_pressed("continue_glitch")):
-		glitch_state = CONTINUE_GLITCHING
+		glitch_state = NOCLIP
 		player_pos = kinematic_body.global_position
-		glitch_dir = player_pos.angle_to_point(last_pos)
-		glitch_spd = player_pos.distance_to(last_pos)
+		noclip_dir = player_pos.angle_to_point(last_pos)
+		noclip_spd = player_pos.distance_to(last_pos)
 		deactivate_enemy_collisions()
-		continue_effect.set_visible(true)
+		noclip_effect.set_visible(true)
 		rewind_effect.set_visible(false)
 		return
-	elif (event.is_action_released("continue_glitch") and glitch_state == CONTINUE_GLITCHING):
+	elif (event.is_action_released("continue_glitch") and glitch_state == NOCLIP):
 		set_state_normal()
 
 	if game_paused:
@@ -145,14 +145,14 @@ func _input(event):
 func reset_body_and_clear_actions():
 	kinematic_body.set_position(body_start_pos)
 	reset_key_presses_and_movement()
-	band_positions = []
-	band_timings = []
-	stored_band_time = 0.0
+	rewind_positions = []
+	rewind_timings = []
+	stored_rewind_time = 0.0
 
 func set_state_normal(): 
 	glitch_state = NORMAL
 	rewind_effect.set_visible(false)
-	continue_effect.set_visible(false)
+	noclip_effect.set_visible(false)
 	reactivate_enemy_collisions()
 	
 func deactivate_enemy_collisions():
@@ -199,33 +199,33 @@ func _physics_process(delta):
 		return
 
 	last_pos = kinematic_body.get_position()
-	if glitch_state == BANDING:
-		if band_positions.size() > 0: 
+	if glitch_state == REWIND:
+		if rewind_positions.size() > 0: 
 			var time_reversed = 0
-			while time_reversed < delta and band_positions.size() > 0:
-				var pos = band_positions.pop_back()
-				var timing = band_timings.pop_back()
+			while time_reversed < delta and rewind_positions.size() > 0:
+				var pos = rewind_positions.pop_back()
+				var timing = rewind_timings.pop_back()
 				time_reversed += timing
 				kinematic_body.set_position(pos)
-				stored_band_time -= delta
+				stored_rewind_time -= delta
 			return
 		else: 
 			set_state_normal()
 	else: 
-		if stored_band_time < MAX_BAND_TIME:
-			band_positions.append(kinematic_body.get_position())
-			band_timings.append(delta)
-			stored_band_time += delta
+		if stored_rewind_time < MAX_REWIND_TIME:
+			rewind_positions.append(kinematic_body.get_position())
+			rewind_timings.append(delta)
+			stored_rewind_time += delta
 		else: 
-			band_positions.append(kinematic_body.get_position())
-			band_timings.append(delta)		
-			band_positions.pop_front()
-			band_timings.pop_front()
+			rewind_positions.append(kinematic_body.get_position())
+			rewind_timings.append(delta)		
+			rewind_positions.pop_front()
+			rewind_timings.pop_front()
 
-		if glitch_state == CONTINUE_GLITCHING: 
+		if glitch_state == NOCLIP: 
 			var pos = kinematic_body.get_position()
-			var spd = min(glitch_spd * CONTINUE_SPEED, CONTINUE_MAX_SPEED)
-			pos += Vector2(1,0).rotated(glitch_dir) * spd * delta
+			var spd = min(noclip_spd * NOCLIP_SPEED, NOCLIP_MAX_SPEED)
+			pos += Vector2(1,0).rotated(noclip_dir) * spd * delta
 			kinematic_body.set_position(pos)
 			return
 
