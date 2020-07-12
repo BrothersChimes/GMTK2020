@@ -34,6 +34,8 @@ var is_right = false
 var is_left = false
 var is_jump = false
 
+var respawn_pos
+
 # TODO use states so that the player doesn't move whilst in another state
 # enum {PAUSED, NORMAL, REWIND}.
 var game_paused = false
@@ -89,6 +91,7 @@ func _ready():
 	update_lag_and_label(LAG_LOW)
 	update_next_lag(LAG_LOW)	
 	player_pos = body_start_pos
+	respawn_pos = body_start_pos
 	last_pos = kinematic_body.get_position()
 	collision_shape = kinematic_body.get_node("Area2D").get_node("CollisionShape2D")
 	rewind_effect = kinematic_body.get_node("RewindEffect")
@@ -154,7 +157,7 @@ func _input(event):
 		reset_body_and_clear_actions()
 
 func reset_body_and_clear_actions():
-	kinematic_body.set_position(body_start_pos)
+	kinematic_body.set_position(respawn_pos)
 	reset_key_presses_and_movement()
 	rewind_positions = []
 	rewind_timings = []
@@ -380,3 +383,7 @@ func _on_Area2D_area_entered(_body):
 		player_dies()
 	elif collision_layer == 2:
 		player_wins()
+
+
+func _on_activate_checkpoint(position): 
+	respawn_pos = position
