@@ -21,3 +21,11 @@ func _ready():
 func _on_start_input_event(_viewport, event, _shape_idx):
 	if event.is_action_pressed("left_click"):
 		get_tree().change_scene("res://main.tscn")
+
+func _on_help_input_event(_viewport, event, _shape_idx):
+	if event.is_action_pressed("left_click"):
+		get_tree().change_scene("res://main.tscn")
+
+func _on_credits_input_event(_viewport, event, _shape_idx):
+	if event.is_action_pressed("left_click"):
+		get_tree().change_scene("res://main.tscn")
