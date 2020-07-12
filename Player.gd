@@ -1,12 +1,12 @@
 extends Node2D
 
 const MOVE_SPEED = 100
-const JUMP_FORCE = 200
+const JUMP_FORCE = 300
 const GRAVITY = 10
 const MAX_FALL_SPEED = 300
 const COYOTE_TIME = 0.2
-const MAX_X = 5000
-const MAX_Y = 1000
+const MAX_X = 10000
+const MAX_Y = 1500
 const MIN_X = 0
 const MIN_Y = 0
 const LAG_LOW = 0

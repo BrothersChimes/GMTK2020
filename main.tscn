@@ -1,11 +1,10 @@
-[gd_scene load_steps=59 format=2]
+[gd_scene load_steps=80 format=2]
 
 [ext_resource path="res://resources/Sprites/robot/Robot run.png" type="Texture" id=1]
-[ext_resource path="res://resources/Sprites/blue_block.png" type="Texture" id=2]
+[ext_resource path="res://resources/background/main_lev_buildB.png" type="Texture" id=2]
 [ext_resource path="res://Player.gd" type="Script" id=3]
 [ext_resource path="res://fonts/xolonium/Xolonium-Regular.otf" type="DynamicFontData" id=4]
-[ext_resource path="res://enemy_still.tscn" type="PackedScene" id=5]
-[ext_resource path="res://spike_pit.tscn" type="PackedScene" id=6]
+[ext_resource path="res://resources/background/main_lev_buildA.png" type="Texture" id=5]
 [ext_resource path="res://resources/background/parallax-demon-woods-mid-trees.png" type="Texture" id=7]
 [ext_resource path="res://resources/background/parallax-demon-woods-far-trees.png" type="Texture" id=8]
 [ext_resource path="res://resources/background/parallax-demon-woods-bg.png" type="Texture" id=9]
@@ -124,57 +123,57 @@ region = Rect2( 13000, 0, 1000, 1000 )
 
 [sub_resource type="AtlasTexture" id=22]
 flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 0, 0, 1000, 1000 )
+atlas = ExtResource( 15 )
+region = Rect2( 5000, 0, 1000, 1000 )
 
 [sub_resource type="AtlasTexture" id=23]
 flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 1000, 0, 1000, 1000 )
+atlas = ExtResource( 15 )
+region = Rect2( 6000, 0, 1000, 1000 )
 
 [sub_resource type="AtlasTexture" id=24]
 flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 2000, 0, 1000, 1000 )
+atlas = ExtResource( 15 )
+region = Rect2( 7000, 0, 1000, 1000 )
 
 [sub_resource type="AtlasTexture" id=25]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 3000, 0, 1000, 1000 )
+region = Rect2( 0, 0, 1000, 1000 )
 
 [sub_resource type="AtlasTexture" id=26]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 4000, 0, 1000, 1000 )
+region = Rect2( 1000, 0, 1000, 1000 )
 
 [sub_resource type="AtlasTexture" id=27]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 5000, 0, 1000, 1000 )
+region = Rect2( 2000, 0, 1000, 1000 )
 
 [sub_resource type="AtlasTexture" id=28]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 6000, 0, 1000, 1000 )
+region = Rect2( 3000, 0, 1000, 1000 )
 
 [sub_resource type="AtlasTexture" id=29]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 7000, 0, 1000, 1000 )
+region = Rect2( 4000, 0, 1000, 1000 )
 
 [sub_resource type="AtlasTexture" id=30]
 flags = 4
-atlas = ExtResource( 15 )
+atlas = ExtResource( 1 )
 region = Rect2( 5000, 0, 1000, 1000 )
 
 [sub_resource type="AtlasTexture" id=31]
 flags = 4
-atlas = ExtResource( 15 )
+atlas = ExtResource( 1 )
 region = Rect2( 6000, 0, 1000, 1000 )
 
 [sub_resource type="AtlasTexture" id=32]
 flags = 4
-atlas = ExtResource( 15 )
+atlas = ExtResource( 1 )
 region = Rect2( 7000, 0, 1000, 1000 )
 
 [sub_resource type="SpriteFrames" id=33]
@@ -194,15 +193,15 @@ animations = [ {
 "name": "death",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ) ],
-"loop": true,
-"name": "run",
-"speed": 14.0
-}, {
-"frames": [ SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 31 ), SubResource( 30 ) ],
+"frames": [ SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 23 ), SubResource( 22 ) ],
 "loop": true,
 "name": "crouch",
 "speed": 5.0
+}, {
+"frames": [ SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ) ],
+"loop": true,
+"name": "run",
+"speed": 14.0
 } ]
 
 [sub_resource type="CapsuleShape2D" id=34]
@@ -237,14 +236,445 @@ height = 768
 noise = SubResource( 39 )
 
 [sub_resource type="RectangleShape2D" id=41]
-extents = Vector2( 150.018, 35.5261 )
-
-[sub_resource type="RectangleShape2D" id=42]
 extents = Vector2( 149.943, 34.3914 )
+
+[sub_resource type="ConvexPolygonShape2D" id=42]
+points = PoolVector2Array( 32, 128, 0, 128, 0, 0, 32, 0 )
+
+[sub_resource type="ConvexPolygonShape2D" id=43]
+points = PoolVector2Array( 128, 32, 0, 32, 0, 0, 128, 0 )
+
+[sub_resource type="TileSet" id=44]
+0/name = "main_lev_buildB.png 0"
+0/texture = ExtResource( 2 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 192, 16, 32, 128 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape = SubResource( 42 )
+0/shape_one_way = false
+0/shape_one_way_margin = 1.0
+0/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 42 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+0/z_index = 0
+1/name = "main_lev_buildB.png 1"
+1/texture = ExtResource( 2 )
+1/tex_offset = Vector2( 0, 0 )
+1/modulate = Color( 1, 1, 1, 1 )
+1/region = Rect2( 240, 112, 128, 32 )
+1/tile_mode = 0
+1/occluder_offset = Vector2( 0, 0 )
+1/navigation_offset = Vector2( 0, 0 )
+1/shape_offset = Vector2( 0, 0 )
+1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape = SubResource( 43 )
+1/shape_one_way = false
+1/shape_one_way_margin = 1.0
+1/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 43 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+1/z_index = 0
+
+[sub_resource type="ConvexPolygonShape2D" id=45]
+points = PoolVector2Array( 208, 48, 0, 48, 0, 16, 208, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=51]
+points = PoolVector2Array( 208, 48, 0, 48, 0, 16, 208, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=46]
+points = PoolVector2Array( 192, 48, 0, 48, 0, 16, 192, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=50]
+points = PoolVector2Array( 0, 16, 64, 16, 64, 0, 80, 0, 80, 16, 192, 16, 192, 48, 0, 48 )
+
+[sub_resource type="ConvexPolygonShape2D" id=59]
+points = PoolVector2Array( 16, 0, 48, 0, 48, 16, 64, 16, 64, 32, 80, 32, 80, 128, 48, 128, 48, 96, 32, 96, 32, 80, 48, 80, 48, 48, 16, 48 )
+
+[sub_resource type="ConvexPolygonShape2D" id=60]
+points = PoolVector2Array( 0, 48, 16, 48, 16, 32, 32, 32, 32, 16, 64, 16, 64, 64, 32, 64, 32, 96, 48, 96, 48, 112, 32, 112, 32, 144, 0, 144 )
+
+[sub_resource type="ConvexPolygonShape2D" id=61]
+points = PoolVector2Array( 0, 32, 16, 32, 16, 16, 32, 16, 32, 0, 64, 0, 64, 48, 32, 48, 32, 80, 48, 80, 48, 96, 32, 96, 32, 128, 0, 128, 0, 32 )
+
+[sub_resource type="ConvexPolygonShape2D" id=62]
+points = PoolVector2Array( 16, 32, 16, 16, 32, 16, 32, 0, 64, 0, 64, 48, 32, 48, 32, 80, 48, 80, 48, 96, 32, 96, 32, 128, 0, 128, 0, 32 )
+
+[sub_resource type="ConvexPolygonShape2D" id=47]
+points = PoolVector2Array( 192, 48, 0, 48, 0, 16, 192, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=52]
+points = PoolVector2Array( 0, 16, 64, 16, 64, 0, 80, 0, 80, 16, 192, 16, 192, 48, 0, 48 )
+
+[sub_resource type="ConvexPolygonShape2D" id=48]
+points = PoolVector2Array( 192, 48, 0, 48, 0, 16, 192, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=53]
+points = PoolVector2Array( 0, 16, 64, 16, 64, 0, 80, 0, 80, 16, 192, 16, 192, 48, 0, 48 )
+
+[sub_resource type="ConvexPolygonShape2D" id=54]
+points = PoolVector2Array( 208, 48, 0, 48, 0, 16, 208, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=55]
+points = PoolVector2Array( 192, 48, 0, 48, 0, 16, 192, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=56]
+points = PoolVector2Array( 0, 16, 64, 16, 64, 0, 80, 0, 80, 16, 192, 16, 192, 48, 0, 48 )
+
+[sub_resource type="ConvexPolygonShape2D" id=57]
+points = PoolVector2Array( 208, 48, 0, 48, 0, 16, 208, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=58]
+points = PoolVector2Array( 0, 32, 64, 32, 64, 16, 80, 16, 80, 32, 192, 32, 192, 64, 0, 64 )
+
+[sub_resource type="ConvexPolygonShape2D" id=63]
+points = PoolVector2Array( 48, 0, 48, 16, 64, 16, 64, 32, 80, 32, 80, 128, 48, 128, 48, 96, 32, 96, 32, 80, 48, 80, 48, 48, 16, 48, 16, 0 )
+
+[sub_resource type="ConvexPolygonShape2D" id=64]
+points = PoolVector2Array( 16, 0, 48, 0, 48, 16, 64, 16, 64, 32, 80, 32, 80, 128, 48, 128, 48, 96, 32, 96, 32, 80, 48, 80, 48, 48, 16, 48 )
+
+[sub_resource type="TileSet" id=49]
+0/name = "main_lev_buildA.png 0"
+0/texture = ExtResource( 5 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 224, 256, 208, 48 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape = SubResource( 45 )
+0/shape_one_way = false
+0/shape_one_way_margin = 1.0
+0/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 45 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+}, {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 51 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+0/z_index = 0
+1/name = "main_lev_buildA.png 1"
+1/texture = ExtResource( 5 )
+1/tex_offset = Vector2( 0, 0 )
+1/modulate = Color( 1, 1, 1, 1 )
+1/region = Rect2( 224, 512, 192, 48 )
+1/tile_mode = 0
+1/occluder_offset = Vector2( 0, 0 )
+1/navigation_offset = Vector2( 0, 0 )
+1/shape_offset = Vector2( 0, 0 )
+1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape = SubResource( 46 )
+1/shape_one_way = false
+1/shape_one_way_margin = 1.0
+1/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 46 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+}, {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 50 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+1/z_index = 0
+2/name = "main_lev_buildA.png 2"
+2/texture = ExtResource( 5 )
+2/tex_offset = Vector2( 0, 0 )
+2/modulate = Color( 1, 1, 1, 1 )
+2/region = Rect2( 928, 512, 192, 48 )
+2/tile_mode = 0
+2/occluder_offset = Vector2( 0, 0 )
+2/navigation_offset = Vector2( 0, 0 )
+2/shape_offset = Vector2( 0, 0 )
+2/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+2/shape = SubResource( 47 )
+2/shape_one_way = false
+2/shape_one_way_margin = 1.0
+2/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 47 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+}, {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 52 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+2/z_index = 0
+3/name = "main_lev_buildA.png 3"
+3/texture = ExtResource( 5 )
+3/tex_offset = Vector2( 0, 0 )
+3/modulate = Color( 1, 1, 1, 1 )
+3/region = Rect2( 224, 64, 192, 48 )
+3/tile_mode = 0
+3/occluder_offset = Vector2( 0, 0 )
+3/navigation_offset = Vector2( 0, 0 )
+3/shape_offset = Vector2( 0, 0 )
+3/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+3/shape = SubResource( 48 )
+3/shape_one_way = false
+3/shape_one_way_margin = 1.0
+3/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 48 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+}, {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 53 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+3/z_index = 0
+4/name = "main_lev_buildA.png 4"
+4/texture = ExtResource( 5 )
+4/tex_offset = Vector2( 0, 0 )
+4/modulate = Color( 1, 1, 1, 1 )
+4/region = Rect2( 224, 704, 208, 48 )
+4/tile_mode = 0
+4/occluder_offset = Vector2( 0, 0 )
+4/navigation_offset = Vector2( 0, 0 )
+4/shape_offset = Vector2( 0, 0 )
+4/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+4/shape = SubResource( 54 )
+4/shape_one_way = false
+4/shape_one_way_margin = 1.0
+4/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 54 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+4/z_index = 0
+5/name = "main_lev_buildA.png 5"
+5/texture = ExtResource( 5 )
+5/tex_offset = Vector2( 0, 0 )
+5/modulate = Color( 1, 1, 1, 1 )
+5/region = Rect2( 928, 960, 192, 48 )
+5/tile_mode = 0
+5/occluder_offset = Vector2( 0, 0 )
+5/navigation_offset = Vector2( 0, 0 )
+5/shape_offset = Vector2( 0, 0 )
+5/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+5/shape = SubResource( 55 )
+5/shape_one_way = false
+5/shape_one_way_margin = 1.0
+5/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 55 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+}, {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 56 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+5/z_index = 0
+6/name = "main_lev_buildA.png 6"
+6/texture = ExtResource( 5 )
+6/tex_offset = Vector2( 0, 0 )
+6/modulate = Color( 1, 1, 1, 1 )
+6/region = Rect2( 224, 1152, 208, 48 )
+6/tile_mode = 0
+6/occluder_offset = Vector2( 0, 0 )
+6/navigation_offset = Vector2( 0, 0 )
+6/shape_offset = Vector2( 0, 0 )
+6/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+6/shape = SubResource( 57 )
+6/shape_one_way = false
+6/shape_one_way_margin = 1.0
+6/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 57 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+6/z_index = 0
+7/name = "main_lev_buildA.png 7"
+7/texture = ExtResource( 5 )
+7/tex_offset = Vector2( 0, 0 )
+7/modulate = Color( 1, 1, 1, 1 )
+7/region = Rect2( 928, 48, 192, 64 )
+7/tile_mode = 0
+7/occluder_offset = Vector2( 0, 0 )
+7/navigation_offset = Vector2( 0, 0 )
+7/shape_offset = Vector2( 0, 0 )
+7/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+7/shape = SubResource( 58 )
+7/shape_one_way = false
+7/shape_one_way_margin = 1.0
+7/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 58 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+7/z_index = 0
+8/name = "main_lev_buildA.png 8"
+8/texture = ExtResource( 5 )
+8/tex_offset = Vector2( 0, 0 )
+8/modulate = Color( 1, 1, 1, 1 )
+8/region = Rect2( 784, 160, 80, 128 )
+8/tile_mode = 0
+8/occluder_offset = Vector2( 0, 0 )
+8/navigation_offset = Vector2( 0, 0 )
+8/shape_offset = Vector2( 0, 0 )
+8/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+8/shape = SubResource( 63 )
+8/shape_one_way = false
+8/shape_one_way_margin = 1.0
+8/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 63 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+8/z_index = 0
+9/name = "main_lev_buildA.png 9"
+9/texture = ExtResource( 5 )
+9/tex_offset = Vector2( 0, 0 )
+9/modulate = Color( 1, 1, 1, 1 )
+9/region = Rect2( 80, 624, 80, 128 )
+9/tile_mode = 0
+9/occluder_offset = Vector2( 0, 0 )
+9/navigation_offset = Vector2( 0, 0 )
+9/shape_offset = Vector2( 0, 0 )
+9/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+9/shape = SubResource( 64 )
+9/shape_one_way = false
+9/shape_one_way_margin = 1.0
+9/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 64 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+9/z_index = 0
+10/name = "main_lev_buildA.png 10"
+10/texture = ExtResource( 5 )
+10/tex_offset = Vector2( 0, 0 )
+10/modulate = Color( 1, 1, 1, 1 )
+10/region = Rect2( 784, 608, 80, 128 )
+10/tile_mode = 0
+10/occluder_offset = Vector2( 0, 0 )
+10/navigation_offset = Vector2( 0, 0 )
+10/shape_offset = Vector2( 0, 0 )
+10/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+10/shape = SubResource( 59 )
+10/shape_one_way = false
+10/shape_one_way_margin = 1.0
+10/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 59 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+10/z_index = 0
+11/name = "main_lev_buildA.png 11"
+11/texture = ExtResource( 5 )
+11/tex_offset = Vector2( 0, 0 )
+11/modulate = Color( 1, 1, 1, 1 )
+11/region = Rect2( 1200, 592, 80, 144 )
+11/tile_mode = 0
+11/occluder_offset = Vector2( 0, 0 )
+11/navigation_offset = Vector2( 0, 0 )
+11/shape_offset = Vector2( 0, 0 )
+11/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+11/shape = SubResource( 60 )
+11/shape_one_way = false
+11/shape_one_way_margin = 1.0
+11/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 60 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+11/z_index = 0
+12/name = "main_lev_buildA.png 12"
+12/texture = ExtResource( 5 )
+12/tex_offset = Vector2( 0, 0 )
+12/modulate = Color( 1, 1, 1, 1 )
+12/region = Rect2( 496, 624, 80, 128 )
+12/tile_mode = 0
+12/occluder_offset = Vector2( 0, 0 )
+12/navigation_offset = Vector2( 0, 0 )
+12/shape_offset = Vector2( 0, 0 )
+12/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+12/shape = SubResource( 61 )
+12/shape_one_way = false
+12/shape_one_way_margin = 1.0
+12/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 61 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+12/z_index = 0
+13/name = "main_lev_buildA.png 13"
+13/texture = ExtResource( 5 )
+13/tex_offset = Vector2( 0, 0 )
+13/modulate = Color( 1, 1, 1, 1 )
+13/region = Rect2( 1200, 160, 80, 128 )
+13/tile_mode = 0
+13/occluder_offset = Vector2( 0, 0 )
+13/navigation_offset = Vector2( 0, 0 )
+13/shape_offset = Vector2( 0, 0 )
+13/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+13/shape = SubResource( 62 )
+13/shape_one_way = false
+13/shape_one_way_margin = 1.0
+13/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 62 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+13/z_index = 0
 
 [node name="Game" type="Node2D"]
 
 [node name="Player" type="Node2D" parent="."]
+position = Vector2( 2304, 512 )
 script = ExtResource( 3 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="Player"]
@@ -254,6 +684,7 @@ position = Vector2( 238.545, 269.188 )
 scale = Vector2( 0.0926498, 0.0926498 )
 frames = SubResource( 33 )
 animation = "crouch"
+frame = 4
 playing = true
 offset = Vector2( 0, -160 )
 
@@ -342,79 +773,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Floor" type="Node2D" parent="."]
-
-[node name="Sprite" type="Sprite" parent="Floor"]
-position = Vector2( 334.659, 393.154 )
-texture = ExtResource( 2 )
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite/StaticBody2D"]
-position = Vector2( 0, 0.334839 )
-shape = SubResource( 41 )
-
-[node name="Sprite2" type="Sprite" parent="Floor"]
-position = Vector2( 732.373, 643.015 )
-texture = ExtResource( 2 )
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite2"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite2/StaticBody2D"]
-shape = SubResource( 41 )
-
-[node name="Sprite3" type="Sprite" parent="Floor"]
-position = Vector2( 976.952, 370.533 )
-rotation = 1.5708
-texture = ExtResource( 2 )
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite3"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite3/StaticBody2D"]
-shape = SubResource( 41 )
-
-[node name="Sprite5" type="Sprite" parent="Floor"]
-position = Vector2( 849.136, 831.344 )
-rotation = 1.5708
-texture = ExtResource( 2 )
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite5"]
-visible = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite5/StaticBody2D"]
-visible = false
-shape = SubResource( 41 )
-
-[node name="Sprite6" type="Sprite" parent="Floor"]
-position = Vector2( 1150.18, 821.254 )
-rotation = 1.5708
-texture = ExtResource( 2 )
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite6"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite6/StaticBody2D"]
-shape = SubResource( 41 )
-
-[node name="Sprite4" type="Sprite" parent="Floor"]
-position = Vector2( 1191.13, 662.064 )
-texture = ExtResource( 2 )
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite4"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite4/StaticBody2D"]
-shape = SubResource( 41 )
-
-[node name="Enemies" type="Node2D" parent="."]
-
-[node name="enemy_still" parent="Enemies" instance=ExtResource( 5 )]
-position = Vector2( 740.817, 572.458 )
-
-[node name="enemy_still2" parent="Enemies" instance=ExtResource( 5 )]
-position = Vector2( 1236.19, 590.423 )
-
-[node name="spike_pit" parent="Enemies" instance=ExtResource( 6 )]
-position = Vector2( 970.395, 894.714 )
-
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="ParallaxClose" type="ParallaxLayer" parent="ParallaxBackground"]
@@ -460,7 +818,7 @@ region_enabled = true
 region_rect = Rect2( 0, 0, 10000, 272 )
 
 [node name="WinCondition" type="Node2D" parent="."]
-position = Vector2( 138.434, 469.206 )
+position = Vector2( 1642, 1152 )
 
 [node name="Sprite" type="Sprite" parent="WinCondition"]
 texture = ExtResource( 12 )
@@ -469,5 +827,25 @@ texture = ExtResource( 12 )
 collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WinCondition/Area2D"]
-shape = SubResource( 42 )
+shape = SubResource( 41 )
+
+[node name="Challenges" type="Node2D" parent="."]
+
+[node name="Level1" type="Node2D" parent="Challenges"]
+
+[node name="TileMap" type="TileMap" parent="Challenges/Level1"]
+scale = Vector2( 4, 4 )
+tile_set = SubResource( 44 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( 0, 0, 0, 524288, 0, 0, 786442, 0, 0, 851970, 1, 0, 851980, 1, 0, 851991, 1, 0, 983058, 0, 0, 983063, 1, 0, 1048576, 0, 0, 1048596, 1, 0 )
+
+[node name="Level2" type="Node2D" parent="Challenges"]
+
+[node name="TileMap" type="TileMap" parent="Challenges/Level2"]
+scale = Vector2( 4, 4 )
+tile_set = SubResource( 49 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( 589887, -1073741813, 0, 720952, -1073741812, 0, 720959, -1073741823, 0, 786463, 1, 0, 786479, -1073741813, 0, 852007, 12, 0, 852013, -1073741823, 0, 852023, -1073741822, 0 )
 [connection signal="area_entered" from="Player/KinematicBody2D/Area2D" to="Player" method="_on_Area2D_area_entered"]
