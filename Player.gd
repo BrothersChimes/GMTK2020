@@ -154,7 +154,7 @@ func set_state_normal():
 	rewind_effect.set_visible(false)
 	noclip_effect.set_visible(false)
 	reactivate_enemy_collisions()
-	
+
 func deactivate_enemy_collisions():
 	collision_shape.set_deferred("disabled", true)
 
@@ -171,6 +171,9 @@ func reset_key_presses_and_movement():
 
 func player_loses():
 	get_tree().change_scene("res://Lose.tscn")
+
+func player_wins():
+	get_tree().change_scene("res://Win.tscn")
 
 func player_dies():
 	num_lives -= 1
@@ -194,7 +197,6 @@ func display_lives():
 		offset += 12
 
 func _physics_process(delta):
-	print(num_lives)
 	if game_paused:
 		return
 
@@ -321,4 +323,10 @@ func update_next_lag(new_lag):
 	next_lag = new_lag
 
 func _on_Area2D_area_entered(_body):
-	player_dies()
+	var collision_layer = _body.get_collision_layer()
+	if collision_layer == 1:
+		print("dies")
+		player_dies()
+	elif collision_layer == 2:
+		print("wins")
+		player_wins()
