@@ -13,7 +13,6 @@ func _ready():
 func _input(event):
 	if event.is_action_pressed("reset_pos"):
 		get_tree().change_scene("res://Main.tscn")
-		
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
