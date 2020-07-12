@@ -18,6 +18,7 @@ var y_velo = 0
 var facing_right = false
 var coyote_time = COYOTE_TIME
 var kinematic_body
+var animated_sprite
 var cur_lag_label
 var body_start_pos
 var player_pos
@@ -78,9 +79,11 @@ var noclip_time = 0.0
 const NOCLIP_SPEED = 60
 const NOCLIP_MAX_SPEED = 400
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	kinematic_body = get_node("KinematicBody2D")
+	animated_sprite = kinematic_body.get_node("AnimatedSprite")
 	cur_lag_label = kinematic_body.get_node("CurLag")
 	body_start_pos = kinematic_body.get_position()
 	update_lag_and_label(LAG_LOW)
@@ -207,11 +210,33 @@ func display_lives():
 func _process(delta):
 	noclip_bar_sprite.scale.x = noclip_bar_sprite_original_scale * (noclip_time / MAX_NOCLIP_TIME_HIGH)
 
+	# animation
+	var grounded = kinematic_body.is_on_floor()
+	animated_sprite.set_flip_h(not is_right)
+
+	if glitch_state == NOCLIP:
+		animated_sprite.play("crouch") 
+	else:
+		if glitch_state == REWIND:
+			# play opposite of the direction we're going
+			var cur_x = kinematic_body.get_position().x
+			animated_sprite.set_flip_h(last_pos.x <= cur_x)
+		if not grounded: 
+			animated_sprite.play("jumping") 
+		else:
+			if is_right or is_left:
+				animated_sprite.play("run") 
+			else:
+				animated_sprite.play("idle")
+		
+		
+
 func _physics_process(delta):
 	if game_paused:
 		return
 
 	last_pos = kinematic_body.get_position()
+	
 	if glitch_state == REWIND:
 		if rewind_positions.size() > 0: 
 			var time_reversed = 0
