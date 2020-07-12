@@ -60,20 +60,18 @@ var dLag = 0.0
 var lag = 0.0
 var next_lag = 0.0
 
-# const MAX_GLITCH_TIME = 2.0
-
-
 var rewind_positions = []
 var rewind_timings = []
 var stored_rewind_time = 0.0
 const MAX_REWIND_TIME = 2.0
 
+const MAX_GLITCH_TIME = 2.0
 var last_pos
 var noclip_dir
 var noclip_spd
+var glitch_time = 0.0
 const NOCLIP_SPEED = 60
-const NOCLIP_MAX_SPEED = 500
-
+const NOCLIP_MAX_SPEED = 400
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -223,12 +221,20 @@ func _physics_process(delta):
 			rewind_timings.pop_front()
 
 		if glitch_state == NOCLIP: 
-			var pos = kinematic_body.get_position()
-			var spd = min(noclip_spd * NOCLIP_SPEED, NOCLIP_MAX_SPEED)
-			pos += Vector2(1,0).rotated(noclip_dir) * spd * delta
-			kinematic_body.set_position(pos)
-			return
+			if glitch_time > 0:
+				var pos = kinematic_body.get_position()
+				var spd = min(noclip_spd * NOCLIP_SPEED, NOCLIP_MAX_SPEED)
+				pos += Vector2(1,0).rotated(noclip_dir) * spd * delta
+				kinematic_body.set_position(pos)
+				glitch_time -= delta
+				return
+			else:
+				set_state_normal()
 
+	
+	if glitch_time < MAX_GLITCH_TIME: 
+		glitch_time += delta
+		
 	adjust_lag_display(delta)	
 	adjust_lag(delta)
 	rotate_key_event_conveyor(delta)
