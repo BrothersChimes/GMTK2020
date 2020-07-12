@@ -10,12 +10,22 @@ extends Node2D
 func _ready():
 	pass # Replace with function body.
 
-func _input(event):
-	var label = get_node("Label")
-	
-	if event.is_action_pressed("reset_pos"):
-		get_tree().change_scene("res://main.tscn")
+
+#func _input(event):
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
+func _on_start_input_event(_viewport, event, _shape_idx):
+	if event.is_action_pressed("left_click"):
+		get_tree().change_scene("res://main.tscn")
+
+func _on_help_input_event(_viewport, event, _shape_idx):
+	if event.is_action_pressed("left_click"):
+		get_tree().change_scene("res://main.tscn")
+
+func _on_credits_input_event(_viewport, event, _shape_idx):
+	if event.is_action_pressed("left_click"):
+		get_tree().change_scene("res://main.tscn")
