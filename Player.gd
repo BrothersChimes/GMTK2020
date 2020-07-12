@@ -65,11 +65,16 @@ var rewind_timings = []
 var stored_rewind_time = 0.0
 const MAX_REWIND_TIME = 2.0
 
-const MAX_GLITCH_TIME = 2.0
+const MAX_NOCLIP_TIME_LOW = 1.0
+const MAX_NOCLIP_TIME_MED = 3.0
+const MAX_NOCLIP_TIME_HIGH = 6.0
+var max_noclip_time = MAX_NOCLIP_TIME_LOW
 var last_pos
 var noclip_dir
 var noclip_spd
-var glitch_time = 0.0
+var noclip_bar_sprite
+var noclip_bar_sprite_original_scale
+var noclip_time = 0.0
 const NOCLIP_SPEED = 60
 const NOCLIP_MAX_SPEED = 400
 
@@ -90,6 +95,8 @@ func _ready():
 	lives_label = kinematic_body.get_node("LivesLabel")
 	lives_node = kinematic_body.get_node("LivesNode")
 	display_lives()
+	noclip_bar_sprite = kinematic_body.get_node("NoclipBar").get_node("Sprite")
+	noclip_bar_sprite_original_scale = noclip_bar_sprite.scale.x
 
 func _input(event):
 	# TODO use states instead of boolean
@@ -129,12 +136,15 @@ func _input(event):
 	# Test purposes
 	if event.is_action_pressed("lag_low"):
 		update_next_lag(LAG_LOW)
+		max_noclip_time = MAX_NOCLIP_TIME_LOW
 
 	if event.is_action_pressed("lag_med"):
 		update_next_lag(LAG_MED)
+		max_noclip_time = MAX_NOCLIP_TIME_MED
 
 	if event.is_action_pressed("lag_high"):
 		update_next_lag(LAG_HIGH)
+		max_noclip_time = MAX_NOCLIP_TIME_HIGH
 
 
 	if event.is_action_pressed("reset_pos"):
@@ -194,6 +204,9 @@ func display_lives():
 		life_display.position.x += offset
 		offset += 12
 
+func _process(delta):
+	noclip_bar_sprite.scale.x = noclip_bar_sprite_original_scale * (noclip_time / MAX_NOCLIP_TIME_HIGH)
+
 func _physics_process(delta):
 	if game_paused:
 		return
@@ -223,19 +236,21 @@ func _physics_process(delta):
 			rewind_timings.pop_front()
 
 		if glitch_state == NOCLIP: 
-			if glitch_time > 0:
+			if noclip_time > 0:
 				var pos = kinematic_body.get_position()
 				var spd = min(noclip_spd * NOCLIP_SPEED, NOCLIP_MAX_SPEED)
 				pos += Vector2(1,0).rotated(noclip_dir) * spd * delta
 				kinematic_body.set_position(pos)
-				glitch_time -= delta
+				noclip_time -= delta
 				return
 			else:
 				set_state_normal()
 
 	
-	if glitch_time < MAX_GLITCH_TIME: 
-		glitch_time += delta
+	if noclip_time < max_noclip_time: 
+		noclip_time += delta
+	if noclip_time > max_noclip_time:
+		noclip_time = max_noclip_time
 		
 	adjust_lag_display(delta)	
 	adjust_lag(delta)
@@ -331,8 +346,6 @@ func update_next_lag(new_lag):
 func _on_Area2D_area_entered(_body):
 	var collision_layer = _body.get_collision_layer()
 	if collision_layer == 1:
-		print("dies")
 		player_dies()
 	elif collision_layer == 2:
-		print("wins")
 		player_wins()
