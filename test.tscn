@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://enemy_still.tscn" type="PackedScene" id=1]
+[ext_resource path="res://enemy_goblin.tscn" type="PackedScene" id=2]
 
 [node name="Node2D" type="Node2D"]
 
@@ -9,3 +10,13 @@ position = Vector2( 53, 45 )
 
 [node name="enemy_still2" parent="." instance=ExtResource( 1 )]
 position = Vector2( 187, 71 )
+
+[node name="goblin1" parent="." instance=ExtResource( 2 )]
+position = Vector2( 84, 142 )
+start_direction = 1
+walk_time = 5.0
+idle_time = 0.2
+
+[node name="goblin2" parent="." instance=ExtResource( 2 )]
+position = Vector2( 162, 148 )
+walk_time = 2.0
