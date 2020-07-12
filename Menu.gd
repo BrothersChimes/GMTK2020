@@ -11,8 +11,11 @@ func _ready():
 	pass # Replace with function body.
 
 func _input(event):
+	var label = get_node("Label")
+	
 	if event.is_action_pressed("reset_pos"):
-		get_tree().change_scene("res://Main.tscn")
+		label.text = "Hello"
+		get_tree().change_scene("res://main.tscn")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
