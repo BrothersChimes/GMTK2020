@@ -123,8 +123,12 @@ func _input(event):
 	if (event.is_action_pressed("continue_glitch")):
 		glitch_state = NOCLIP
 		player_pos = kinematic_body.get_position()
-		noclip_dir = player_pos.angle_to_point(last_pos)
-		noclip_spd = player_pos.distance_to(last_pos)
+		if player_pos.distance_to(last_pos) < 0.000001:
+			noclip_dir = 3*PI/2
+			noclip_spd = NOCLIP_MAX_SPEED
+		else:
+			noclip_dir = player_pos.angle_to_point(last_pos)
+			noclip_spd = player_pos.distance_to(last_pos)
 		deactivate_enemy_collisions()
 		noclip_effect.set_visible(true)
 		rewind_effect.set_visible(false)
