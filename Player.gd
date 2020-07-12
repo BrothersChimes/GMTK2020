@@ -60,7 +60,7 @@ var dLag = 0.0
 var lag = 0.0
 var next_lag = 0.0
 
-const MAX_GLITCH_TIME = 2.0
+# const MAX_GLITCH_TIME = 2.0
 
 
 var band_positions = []
@@ -208,8 +208,6 @@ func _physics_process(delta):
 				time_reversed += timing
 				kinematic_body.set_position(pos)
 				stored_band_time -= delta
-				rewind_effect.get_node("SpriteTop").get_texture().get_noise().set_seed(randi()%10+1)
-				rewind_effect.get_node("SpriteBot").get_texture().get_noise().set_seed(randi()%10+1)
 			return
 		else: 
 			set_state_normal()
@@ -229,7 +227,6 @@ func _physics_process(delta):
 			var spd = min(glitch_spd * CONTINUE_SPEED, CONTINUE_MAX_SPEED)
 			pos += Vector2(1,0).rotated(glitch_dir) * spd * delta
 			kinematic_body.set_position(pos)
-			continue_effect.get_node("Sprite").get_texture().get_noise().set_seed(randi()%10+1)
 			return
 
 	adjust_lag_display(delta)	
