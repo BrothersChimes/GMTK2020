@@ -6,23 +6,28 @@ const GRAVITY = 10
 const MAX_FALL_SPEED = 300
 const COYOTE_TIME = 0.2
 const MAX_X = 5000
-const MAX_Y = 5000
+const MAX_Y = 1000
 const MIN_X = 0
 const MIN_Y = 0
 const LAG_LOW = 0
 const LAG_MED = 0.18
 const LAG_HIGH = 0.55
+const START_LIVES = 3
 
 var y_velo = 0
 var facing_right = false
 var coyote_time = COYOTE_TIME
-var kinematic_body;
-var cur_lag_label;
-var body_start_pos;
-var player_pos;
-var collision_shape;
-var rewind_effect;
-var continue_effect;
+var kinematic_body
+var cur_lag_label
+var body_start_pos
+var player_pos
+var collision_shape
+var rewind_effect
+var continue_effect
+var num_lives = START_LIVES
+var lives_label
+var lives_node
+var life_display_arr = []
 
 var is_right = false
 var is_left = false
@@ -30,7 +35,7 @@ var is_jump = false
 
 # TODO use states so that the player doesn't move whilst in another state
 # enum {PAUSED, NORMAL, BANDING}.
-var game_paused = false;
+var game_paused = false
 var glitch_state = NORMAL
 
 enum {NORMAL, BANDING, CONTINUE_GLITCHING}
@@ -63,9 +68,9 @@ var band_timings = []
 var stored_band_time = 0.0
 const MAX_BAND_TIME = 2.0
 
-var last_pos;
-var glitch_dir;
-var glitch_spd;
+var last_pos
+var glitch_dir
+var glitch_spd
 const CONTINUE_SPEED = 60
 const CONTINUE_MAX_SPEED = 500
 
@@ -84,6 +89,9 @@ func _ready():
 	continue_effect = kinematic_body.get_node("ContinueEffect")
 	rewind_effect.set_visible(false)
 	continue_effect.set_visible(false)
+	lives_label = kinematic_body.get_node("LivesLabel")
+	lives_node = kinematic_body.get_node("LivesNode")
+	display_lives()
 
 func _input(event):
 	# TODO use states instead of boolean
@@ -161,7 +169,32 @@ func reset_key_presses_and_movement():
 	is_left = false
 	is_jump = false
 
+func player_loses():
+	get_tree().change_scene("res://Lose.tscn")
+
+func player_dies():
+	num_lives -= 1
+	if num_lives < 0:
+		player_loses()
+	reset_body_and_clear_actions()
+	display_lives()
+
+func display_lives():
+	var offset = 0
+	lives_label.text = "Lives: " + String(num_lives) + "x"
+	var lifescene = preload("res://LifeDisplay.tscn")
+	for life in life_display_arr:
+		life.queue_free()
+	life_display_arr.clear()
+	for i in num_lives:
+		var life_display = lifescene.instance()
+		life_display_arr.push_back(life_display) 
+		lives_node.call_deferred("add_child", life_display)
+		life_display.position.x += offset
+		offset += 12
+
 func _physics_process(delta):
+	print(num_lives)
 	if game_paused:
 		return
 
@@ -223,10 +256,9 @@ func _physics_process(delta):
 	coyote_time -= delta
 	player_pos = kinematic_body.global_position
 	if player_pos.x < MIN_X or player_pos.x > MAX_X or player_pos.y < MIN_Y or player_pos.y > MAX_Y:
-		reset_body_and_clear_actions()
+		player_dies()
 
 func adjust_lag_display(delta):
-	print(lag_display_diff)
 	lag_display_countdown -= delta
 	if lag_display_countdown > 0:
 		return
@@ -292,4 +324,4 @@ func update_next_lag(new_lag):
 	next_lag = new_lag
 
 func _on_Area2D_area_entered(_body):
-	reset_body_and_clear_actions()
+	player_dies()
